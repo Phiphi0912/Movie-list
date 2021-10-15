@@ -1,0 +1,30 @@
+.fa-th {
+  position: absolute;
+  top: 13px;
+  right: 40px;
+}
+
+.fa-bars {
+  position: absolute;
+  top:13px; 
+  right: 15px;
+}
+
+table {
+  width: 100%;
+  border: 0.01px solid rgba(0, 0, 0, 0.267);
+  border-left: none;
+  border-right: none;
+}
+
+table th {
+  position: relative;
+}
+
+table td {
+  text-align: left;
+} 
+
+.fa:hover{
+	transform: scale(1.2);
+}
