@@ -5,7 +5,7 @@ const movie_per_page = 12
 const paginator = document.querySelector('#paginator')
 
 const movies = []
-let filteredMovies = []
+let filteredMovies = [] // 搜尋電影的陣列
 let page = 1
 
 const dataPanel = document.querySelector('#data-panel')
@@ -135,6 +135,7 @@ searchForm.addEventListener('submit', function searchSubmit(event) {
   //   return alert ('Please enter a correct string!')
   // }
 
+
   filteredMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(keyWord)
   )
@@ -150,7 +151,13 @@ searchForm.addEventListener('submit', function searchSubmit(event) {
   // }
 
   renderPaginator(filteredMovies.length)
-  renderMovieList(getMoviePage(1))
+
+  if (event.target.matches('.list')) {
+    renderList(getMoviePage(1))
+  } else {
+    renderMovieList(getMoviePage(1))
+  }
+  // renderMovieList(getMoviePage(1))
 })
 
 axios.get(indexUrl).then((response) => {
@@ -169,17 +176,19 @@ axios.get(indexUrl).then((response) => {
 // localStorage.removeItem('default_language')
 
 // 利用監聽器判斷點擊的按鈕是哪個，將再次render分頁器
-container.addEventListener('click', function changeList(event) {
-  const target = event.target
+container.addEventListener('click', (event) => {
+  changeList(event)
+})
 
-  if (target.matches('.fa-th')) {
-    renderMovieList(getMoviePage(page))
+function changeList(event) {
+  if (event.target.matches('.fa-th')) {
+    renderMovieList(getMoviePage(filteredMovies.length ? 1 : page))  // 這邊是預防在第二頁進行搜尋時，page會變成2，此時在轉換list頁面時會產生錯誤
     renderPaginator(filteredMovies.length ? filteredMovies.length : movies.length)
-  } else if (target.matches('.fa-bars')) {
-    renderList(getMoviePage(page))
+  } else if (event.target.matches('.fa-bars')) {
+    renderList(getMoviePage(filteredMovies.length ? 1 : page))  // 條件設定為filteredMovies.length > 0時，代表正在進行搜尋動作
     renderListPaginator(filteredMovies.length ? filteredMovies.length : movies.length)
   }
-})
+}
 
 function renderList(data) {
   let rawHtml = ''

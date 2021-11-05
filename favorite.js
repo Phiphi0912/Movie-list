@@ -57,6 +57,7 @@ function removeFavorite (id) {
   }
   
   if (!movies) return //一旦收藏清單是空的，就結束這函式
+  console.log(!movies)
 
   const movieIndex = movies.findIndex(isMovieMatched)
   if (movieIndex === -1) return //傳入的電影id 若是在收藏清單中不存在，就結束這函式
